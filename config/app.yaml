@@ -1,0 +1,10 @@
+# config/app.yaml
+app:
+  name: druid-cd-demo
+  version: 1.0.0
+  environment: dev
+
+features:
+  - validation
+  - deployment
+  - monitoring

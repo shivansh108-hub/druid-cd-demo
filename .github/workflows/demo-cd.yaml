@@ -1,0 +1,48 @@
+# .github/workflows/demo-cd.yaml
+name: Demo CD Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  # ============================================================
+  # VALIDATION JOB - Runs on every PR/commit
+  # ============================================================
+  validate:
+    name: Validate Configuration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run validation script
+        run: |
+          chmod +x scripts/validate.sh
+          ./scripts/validate.sh
+
+  # ============================================================
+  # DEPLOYMENT JOB - Simulates deployment
+  # ============================================================
+  deploy:
+    name: Deploy to Simulated Environment
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Simulate deployment
+        run: |
+          echo "🚀 Simulating deployment..."
+          echo "📦 Application version: $(date +%Y.%m.%d-%H%M%S)"
+          echo "🌍 Environment: GitHub Actions (simulated)"
+          echo "✅ Deployment complete!"
+
+      - name: Show file structure
+        run: |
+          echo "📁 Files in repository:"
+          ls -la
