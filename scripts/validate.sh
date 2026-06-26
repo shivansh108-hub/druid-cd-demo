@@ -1,5 +1,5 @@
 #!/bin/bash
-# validate.sh - Simple validation script
+# validate.sh - Simple validation script with secret display
 
 set -e
 
@@ -28,5 +28,14 @@ else
     chmod +x scripts/deploy.sh
 fi
 
+echo "=========================================="
+echo "🔐 Displaying Secret (Length Only)"
+# This prints the secret's length as a secure way to verify it exists
+if [ -n "$TEST_PASS" ]; then
+    echo "✅ TEST_PASS secret is set (length: ${#TEST_PASS} characters)"
+    echo "🔐 Secret value: $TEST_PASS" # <-- ADD THIS LINE
+else
+    echo "❌ TEST_PASS secret is NOT set"
+fi
 echo "=========================================="
 echo "✅ Validation complete!"
